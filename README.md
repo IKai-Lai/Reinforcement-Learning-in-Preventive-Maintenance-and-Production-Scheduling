@@ -24,7 +24,7 @@
   Let A represent the set of N + 1 actions, denoted as A = {a<sub>1</sub>,...,a<sub>N</sub>,a<sub>N+1</sub>}, where a<sub>N+1</sub> represents a preventive maintenance activity, and an refers to the choice of job type n for processing, where n ∈ {1, 2, ⋯, N}.
   Additionally, we assume that the state transition follows a Markov process in the machine degradation process.
   In other words, the state transition is independent of past states and relies solely on the present state and the chosen action.
-  Due to the degradation of the machine, there is an associated rise in the cost of processing jobs.
+  Due to the degradation of the machine, there is an associated rise in the cost of processing jobs.<br>
   To reduce these costs, preventive maintenance is usually carried out to enhance the machine's condition timely.
   It is assumed that preventive maintenance restores the machine to its optimal condition, essentially bringing it back to a state equivalent to being "as good as new".
   The state transition process is calculated as follows:
@@ -36,10 +36,6 @@
   action_num = 12
   state_num = 6
 
-  maintenance_cost = np.zeros((state_num,action_num))
-  proc_cost = np.zeros((state_num,action_num))
-  proc_time = np.zeros((action_num))
-  completion_reward = np.zeros((state_num,action_num))
   P_ij = np.array([[0.1,0.9,0,0,0,0],
                   [0,0.1,0.9,0,0,0],
                   [0,0,0.1,0.9,0,0],
@@ -53,24 +49,26 @@
 
   ```py
   P_aij = np.zeros((action_num,state_num,state_num))
-    def cal_P_aij(P_aij):
-      for a in range(action_num):
-          for i in range(state_num):
-              for j in range(state_num):
-                  if a != maitenance_index and j>=i:  
-                      P_aij[a][i][j] = P_ij[i][j]
-                  if a == maitenance_index and j==0:  
-                      P_aij[a][i][j] = 1
-      return P_aij
+  def cal_P_aij(P_aij):
+    for a in range(action_num):
+        for i in range(state_num):
+            for j in range(state_num):
+                if a != maitenance_index and j>=i:  
+                    P_aij[a][i][j] = P_ij[i][j]
+                if a == maitenance_index and j==0:  
+                    P_aij[a][i][j] = 1
+    return P_aij
   ```
   Deteriorating machine conditions result in higher maintenance costs.
   Therefore, the maintenance cost function is characterized as a non-decreasing function in state i. 
   Specifically, if i ≥ i<up>′</up>, then c<sub>m</sub>(i,a) ≥ c<sub>m</sub>(i<up>′</up> , a).
-  The machine processing cost per time unit in state i is delineated as:
-  ![GITHUB](https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/maintainence_cost.png)
+  The machine processing cost per time unit in state i is delineated as:<br>
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/maintainence_cost.png" width="580" height="60">
+
 
   ```py
   def cal_maintenance_cost(maintenance_cost):
+      maintenance_cost = np.zeros((state_num,action_num))
       maintenance_cost[1][maitenance_index] = 1.5
       maintenance_cost[2][maitenance_index] = 1.8
       maintenance_cost[3][maitenance_index] = 2.1
@@ -80,9 +78,12 @@
   
       return maintenance_cost
   ```
-  ![GITHUB](https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/process_cost.png)
+  The degradation of the machine condition results in an increase in the processing cost per time unit.
+  Hence, if i ≥ i′, then c<sub>p</sub>(i, a) ≥ c<sub>p</sub>(i′, a).
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/process_cost.png" width="550" height="80">
   ```py
   def cal_proc_cost(proc_cost):
+      proc_cost = np.zeros((state_num,action_num))
       for i in range(state_num-2): 
           proc_cost[i][:] = round(random.uniform(i,i+1),1)
       for i in range(state_num-2,state_num): 
@@ -90,10 +91,10 @@
       proc_cost[5][:]=5.1
       return proc_cost
   ```
-  The degradation of the machine condition results in an increase in the processing cost per time unit.
-  Hence, if i ≥ i′, then c<sub>p</sub>(i, a) ≥ c<sub>p</sub>(i′, a).
+
   ```py
   def cal_proc_time(proc_time):
+      proc_time = np.zeros((action_num))
       for a in range(action_num-1):
           proc_time[a] = round(random.uniform(0.8,2.6),1)
           # proc_time[a] = round(random.uniform(0.3,3.1),1)# increasing uncertainty, lower the efficiency of HR algorithm
@@ -101,10 +102,11 @@
       return proc_time
   ```
   The completion reward for all actions in state i is denoted by the function r<sub>o</sub>(i, a) as:
-  ![GITHUB](https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/completion_reward.png)
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/completion_reward.png" width="600" height="80"><br>
   where r<sub>o</sub>(a) denotes the completion reward for a type of job when taking action a. No reward is received during the execution of maintenance activities.
   ```py
   def cal_completion_reward(completion_reward):
+      completion_reward = np.zeros((state_num,action_num))
       for a in range(action_num-1):
           reward = round(random.uniform(1.1,3.4),1)
           # reward = round(random.uniform(0.5,4),1)# increasing uncertainty, lower the efficiency of HR algorithm
@@ -113,9 +115,8 @@
   
       return completion_reward
   ```
- Building upon the earlier considerations of preventive maintenance costs, processing costs, and completion rewards functions, the immediate rewards function at stage k in the production process is derived:
-  ![GITHUB](https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/reward_function.png)
-  
+  Building upon the earlier considerations of preventive maintenance costs, processing costs, and completion rewards functions, the immediate rewards function at stage k in the production process is derived:
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/reward_function.png" width="600" height="40">
   
   
   
