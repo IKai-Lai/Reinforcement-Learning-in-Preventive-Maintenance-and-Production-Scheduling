@@ -18,7 +18,7 @@ details open="open">
   <summary><b>Table of Contents</b></summary>
   <ol>
     <li>
-      <a href="##Introduction">Introduction</a>
+      <a href="#introduction">Introduction</a>
     </li>
     <li>
       <a href="#problem-description">Problem Description</a>
