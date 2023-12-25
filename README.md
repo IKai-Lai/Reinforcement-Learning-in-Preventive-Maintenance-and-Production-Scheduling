@@ -56,6 +56,13 @@
                      P_aij[a][i][j] = 1
       return P_aij
   ```
+  ```py
+  def get_next_state(state,action):
+      state_list = [i for i in range(state_num)]
+      weights = P_aij[action][state]
+      next_state = random.choices(state_list, weights=weights, k=1)[0]
+      return next_state
+  ```
   Deteriorating machine conditions result in higher maintenance costs.
   Therefore, the maintenance cost function is characterized as a non-decreasing function in state i. 
   Specifically, if i ≥ i<up>′</up>, then c<sub>m</sub>(i,a) ≥ c<sub>m</sub>(i<up>′</up> , a).
@@ -110,22 +117,19 @@
   
       return completion_reward
   ```
-  Building upon the earlier considerations of preventive maintenance costs, processing costs, and completion rewards functions, the immediate rewards function at stage k in the production process is derived:
+  Building upon the earlier considerations of preventive maintenance costs, processing costs, and completion rewards functions, the immediate rewards function at stage k in the production process is derived:<br>
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/reward_function.png" width="600" height="40">
   ```py
   def immediate_reward(state,action):
       return completion_reward[state][action] - maintenance_cost[state][action] - proc_cost[state][action]*proc_time[action]
   ```
+## Methodology
+### R Learning algorithm
+Before entering the algorithm, we first define several functions for the algorithm to use.
   ```py
-  def eta_generate():
-      return random.uniform(0,1)
-  ```
-  ```py
-  def get_next_state(state,action):
-      state_list = [i for i in range(state_num)]
-      weights = P_aij[action][state]
-      next_state = random.choices(state_list, weights=weights, k=1)[0]
-      return next_state
+  beta_1 = 0.1 # learning rate
+  def rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward):
+      return (1-beta_1)*rel_avg_reward[cur_state][action] + beta_1*(immediate_reward(cur_state,action)-avg_reward+max(rel_avg_reward[next_state]))
   ```
   ```py
   beta_2 = 0.01 # learning rate    
@@ -133,9 +137,59 @@
       return (1-beta_2)*avg_reward + beta_2*(immediate_reward(cur_state,action)+max(rel_avg_reward[next_state])-max(rel_avg_reward[cur_state]))
   ```
   ```py
-  beta_1 = 0.1 # learning rate
-  def rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward):
-      return (1-beta_1)*rel_avg_reward[cur_state][action] + beta_1*(immediate_reward(cur_state,action)-avg_reward+max(rel_avg_reward[next_state]))
+  def iterative_R_alg(initial_state,iterative_num):
+      k = 0
+      eposilon = 0.9 # exploration factor
+      phi = 1.005 # decaying factor
+      avg_reward = 0
+      rel_avg_reward = np.zeros((state_num,action_num))
+      
+      for i in range(state_num): 
+          for a in range(action_num):
+              rel_avg_reward[i][a] = immediate_reward(i,a)
+      
+      history_state_list = []
+      history_action_list = []
+      history_reward_list = []
+      history_exp_avg_reward_list = []
+      cur_state = initial_state
+      next_state = 0
+      action = 0
+      
+      while k<iterative_num:
+          # step2
+          eposilon = eposilon/phi
+          
+          lala = random.choices([0,1], weights=[eposilon,1-eposilon], k=1)[0]
+          # action_candidate_list = [i for i in range(action_num) if rel_avg_reward[cur_state][i]==0]
+          if lala == 1 :#or len(action_candidate_list)==0:
+              action = np.argmax(rel_avg_reward[cur_state])
+              # step 6
+              next_state = get_next_state(cur_state,action)
+              avg_reward = avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
+          else:
+              action_candidate_list = [i for i in range(action_num) if i!=np.argmax(rel_avg_reward[cur_state])]
+              action = random.choices(action_candidate_list, weights=[1/len(action_candidate_list) for i in range(len(action_candidate_list))], k=1)[0]
+              # print(action)
+     
+              # step 5
+              next_state = get_next_state(cur_state,action)
+          rel_avg_reward[cur_state][action] = rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
+          history_action_list.append(action)   
+          history_state_list.append(next_state)
+          history_reward_list.append(immediate_reward(cur_state,action))
+          # print(immediate_reward(cur_state,action))
+          history_exp_avg_reward_list.append(sum(history_reward_list)/len( history_reward_list))
+          # step 7
+          cur_state = next_state
+          k += 1
+          # print(avg_reward)
+      return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
+  ```
+### HR Learning (Heuristic R Learning) algorithm
+  ```py
+  def eta_generate():
+      return random.uniform(0,1)
   ```
   ```py
   def iterative_HR_alg(initial_state,iterative_num):
@@ -198,53 +252,4 @@
           # print(avg_reward)
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
-  ```py
-  def iterative_R_alg(initial_state,iterative_num):
-      k = 0
-      eposilon = 0.9 # exploration factor
-      phi = 1.005 # decaying factor
-      avg_reward = 0
-      rel_avg_reward = np.zeros((state_num,action_num))
-      
-      for i in range(state_num): 
-          for a in range(action_num):
-              rel_avg_reward[i][a] = immediate_reward(i,a)
-      
-      history_state_list = []
-      history_action_list = []
-      history_reward_list = []
-      history_exp_avg_reward_list = []
-      cur_state = initial_state
-      next_state = 0
-      action = 0
-      
-      while k<iterative_num:
-          # step2
-          eposilon = eposilon/phi
-          
-          lala = random.choices([0,1], weights=[eposilon,1-eposilon], k=1)[0]
-          # action_candidate_list = [i for i in range(action_num) if rel_avg_reward[cur_state][i]==0]
-          if lala == 1 :#or len(action_candidate_list)==0:
-              action = np.argmax(rel_avg_reward[cur_state])
-              # step 6
-              next_state = get_next_state(cur_state,action)
-              avg_reward = avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
-          else:
-              action_candidate_list = [i for i in range(action_num) if i!=np.argmax(rel_avg_reward[cur_state])]
-              action = random.choices(action_candidate_list, weights=[1/len(action_candidate_list) for i in range(len(action_candidate_list))], k=1)[0]
-              # print(action)
-     
-              # step 5
-              next_state = get_next_state(cur_state,action)
-          rel_avg_reward[cur_state][action] = rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
-          history_action_list.append(action)   
-          history_state_list.append(next_state)
-          history_reward_list.append(immediate_reward(cur_state,action))
-          # print(immediate_reward(cur_state,action))
-          history_exp_avg_reward_list.append(sum(history_reward_list)/len( history_reward_list))
-          # step 7
-          cur_state = next_state
-          k += 1
-          # print(avg_reward)
-      return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
-  ```
+  
