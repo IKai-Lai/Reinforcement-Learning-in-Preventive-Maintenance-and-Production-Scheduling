@@ -296,8 +296,9 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
 
-  ##  Experiment Result
-  ### Convergence of Reinforcement Learning Algorithm
-  
+##  Experiment Result
+The numerical experiments aim to confirm the performance and effectiveness of three algorithms implemented on a single machine with six states. The machine is responsible for producing various types of jobs, and the transitions between states during the production process follow the Markov chain model. In this study, production costs primarily consist of preventive maintenance costs and job processing costs. The processing costs are contingent upon the processing time of each job type and the machine's processing cost per unit time in a given state. The processing time, denoted as t<sub>n</sub>, for each job type is generated using a uniform distribution. Upon the completion of a job, a corresponding completion reward is received, and this reward follows a uniform distribution tailored to different job types.
+### Convergence of Reinforcement Learning Algorithm
+
   --------------------------------------------------------------------------------------------------------------------
   ### Scheduling Visualization
