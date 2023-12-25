@@ -192,7 +192,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           # print(immediate_reward(cur_state,action))
           history_exp_avg_reward_list.append(sum(history_reward_list)/len( history_reward_list))
   ```
-  Step5: Set k=k+1, and the current state to be j. Repeat steps 2–6 until the terminal condition is reached.
+  Step5: Set k=k+1, and the current state to be j. Repeat steps 2–5 until the terminal condition is reached.
   ```py 
           # step 5
           cur_state = next_state
@@ -230,43 +230,52 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       action = 0
   ```
   Same as R Learning, we update according rewards in iterative_num.<br>
-  Step2: Randomly generate a number η by above function. Then, calculate c<sub>m</sub>(i, a<sub>N+1</sub>) and exploration probability ε by using ε = ε<sub>0</sub> / ψᵏ. 
+  Step2: Randomly generate a number η by above function. Then, calculate exploration probability ε by using ε = ε<sub>0</sub> / ψᵏ. 
+
   ```py
       while k<iterative_num:
           # step2
           eta = eta_generate()
           eposilon = eposilon/phi
-          
+  ```
+  Step3: Calculate c<sub>m</sub>(i, a<sub>N+1</sub>). If c<sub>m</sub>(i, a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)], and if η > η<sub>0</sub>(1− ε), perform preventive maintainence; else go to Step4.
+  ```py
+          # step3 
           if maintenance_cost[cur_state][maitenance_index] <= min(
               [(proc_cost[cur_state][action]*proc_time[action])-(completion_reward[cur_state][action]) for action in range(action_num-1)]) and eta>eta_0*(1-eposilon):
-              # step3 
               action = maitenance_index
               next_state = 0
               rel_avg_reward[cur_state][action] = rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
               avg_reward = avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
+  ```
+  Step4: Choose and carry out the action a that has the highest R̄ᵏ(i,a) value with probability 1-ε, else, randomly choose other exploration action a with probability ε/(|A|-1), where |A| is the number of actions in action set A. Let the next state be j transferred from i. If the selected action a is a non-exploratory action, update the average reward ρ; otherwise, the average reward ρ is kept the same.
+  ```py
           else:
               # step 4
-              lala = random.choices([0,1], weights=[eposilon,1-eposilon], k=1)[0]
-              # action_candidate_list = [i for i in range(action_num) if rel_avg_reward[cur_state][i]==0]
-              if lala == 1 : # or len(action_candidate_list)==0:
+              exploitation = random.choices([0,1], weights=[eposilon,1-eposilon], k=1)[0]
+              if exploitation == 1 :
                   action = np.argmax(rel_avg_reward[cur_state])
-                  # step 6
                   next_state = get_next_state(cur_state,action)
                   avg_reward = avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
               else:
                   action_candidate_list = [i for i in range(action_num) if i!=np.argmax(rel_avg_reward[cur_state])]
                   action = random.choices(action_candidate_list, weights=[1/len(action_candidate_list) for i in range(len(action_candidate_list))], k=1)[0]
-                  # print(action)
+                  next_state = get_next_state(cur_state,action)
+  ```
+  Step5: Calculate the immediate reward value R(i,a). Update the relative average reward R̄ᵏ(i,a).
+  ```py
   
               # step 5
-                  next_state = get_next_state(cur_state,action)
               rel_avg_reward[cur_state][action] = rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
           history_action_list.append(action)   
           history_state_list.append(next_state)
           history_reward_list.append(immediate_reward(cur_state,action))
           # print(immediate_reward(cur_state,action))
           history_exp_avg_reward_list.append(sum(history_reward_list)/len( history_reward_list))
-          # step 7
+  ```
+  Step6: Set k=k+1, and the current state to be j. Repeat steps 2–6 until the terminal condition is reached.
+  ```py 
+          # step 6
           cur_state = next_state
           k += 1
           # print(avg_reward)
