@@ -13,7 +13,7 @@
       <ul>
         <li><a href="#gr-learning">GR-Learning</a></li>
         <li><a href="#r-learning">R-Learning</a></li>
-        <li><a href="#hR-learning-(heuristic-r-learning)">HR-Learning</a></li>
+        <li><a href="#hR-learning-heuristic-r-learning">HR-Learning</a></li>
       </ul>
     </li>
     <li><a href="#experiment-result">Experiment Result</a></li>
