@@ -201,7 +201,15 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
 ### HR Learning (Heuristic R Learning) algorithm
-  Before entering the algorithm, we first define a function for the algorithm to use. This function randomly generate eta to decide whether to exploit the heuristic rule.
+  Before introducing the steps of the algorithm, it is essential to clarify this heuristic property. In other words, I believe it is more accurate to refer to it as the optimal action under specific conditions. <br>
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/property2.png" width="600" height="88"><br>
+  To proove it, for any state i, if<br>
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/property2_pf3.png" width="397" height="66"><br>
+  then a<sub>N+1</sub> must be the best action to choose. <br>
+  And h(i) here represent the infinite horizon discounted expected rewrd function. According to the other paper refered here, it is a non-increasing function.  So<br>
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/property2_pf2.png" width="153" height="30"><br>
+  Thus, when c<sub>m</sub>(i, a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)] holds, there must be R(i, a<sub>N+1</sub>) >= R(i, a) holds, so that the first inequation hold, the proof complete.<br>
+  Firstly, we define a function for the algorithm to use. This function randomly generate eta to decide whether to exploit the heuristic rule.
   ```py
   def eta_generate():
       return random.uniform(0,1)
