@@ -222,7 +222,6 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           # print(avg_reward)
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
---------------------------------------------------------------------------------------------------------------------
 ### HR-Learning (Heuristic R-Learning)
   Before introducing the steps of the algorithm, it is crucial to elucidate this heuristic property. This heuristic property explains that under specific conditions, preventive maintenance will be the best action to conduct. <br><br>
   **Property: If c<sub>m</sub>(i,a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)] for all i, such that the preventive maintenance should be conducted in i under the optimal stationary policy.<br>**<br>
@@ -322,7 +321,6 @@ The numerical experiments aim to confirm the performance and effectiveness of th
 <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/converge.png"><br>
 As depicted in the figure, it is evident that HR-learning exhibits faster convergence compared to R-learning. Furthermore, HR-learning consistently outperforms R-learning across the entire iterative process. Conversely, while GR-learning converges more rapidly than HR-learning, it demonstrates inferior performance compared to HR-learning throughout the iterative process. Remarkably, R-learning outperforms GR-learning after around 900 decision-making steps.
   
-  --------------------------------------------------------------------------------------------------------------------
 ### Scheduling Visualization
 <p float="left">
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/GR.png" width="330" height="220">
