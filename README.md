@@ -144,7 +144,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       return (1-beta_2)*avg_reward + beta_2*(immediate_reward(cur_state,action)+max(rel_avg_reward[next_state])-max(rel_avg_reward[cur_state]))
   ```
  Now, let's continue to enter into the R learning algorithm. <br>
- Step1: Initialize the learning rates β₁, β₂, exploration factor ε₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate the immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
+ **Step1:** Initialize the learning rates β₁, β₂, exploration factor ε₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate the immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
   ```py
   def iterative_R_alg(initial_state,iterative_num):
       k = 0
@@ -164,13 +164,13 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       action = 0
   ```
   We update according rewards in iterative_num.<br>
-  Step2:  Calculate exploration probability ε by using ε = ε<sub>0</sub> / ψᵏ.
+  **Step2:**  Calculate exploration probability ε by using ε = ε<sub>0</sub> / ψᵏ.
   ```py 
       while k<iterative_num:
           # step2
           eposilon = eposilon/phi
   ```
-  Step3: Choose and carry out the action a that has the highest R̄ᵏ(i,a) value with probability 1-ε, else, randomly choose other exploration action a with probability ε/(|A|-1), where |A| is the number of actions in action set A. Let the next state be j transferred from i. If the selected action a is a non-exploratory action, update the average reward ρ; otherwise, the average reward ρ is kept the same.
+  **Step3:** Choose and carry out the action a that has the highest R̄ᵏ(i,a) value with probability 1-ε, else, randomly choose other exploration action a with probability ε/(|A|-1), where |A| is the number of actions in action set A. Let the next state be j transferred from i. If the selected action a is a non-exploratory action, update the average reward ρ; otherwise, the average reward ρ is kept the same.
   ```py
           # step3
           exploitation = random.choices([0,1], weights=[eposilon,1-eposilon], k=1)[0]
@@ -183,7 +183,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
               action = random.choices(action_candidate_list, weights=[1/len(action_candidate_list) for i in range(len(action_candidate_list))], k=1)[0]
               next_state = get_next_state(cur_state,action)
   ```
- Step4: Calculate the immediate reward value R(i,a). Update the relative average reward R̄ᵏ(i,a).
+ **Step4:** Calculate the immediate reward value R(i,a). Update the relative average reward R̄ᵏ(i,a).
   ```py 
           rel_avg_reward[cur_state][action] = rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
           history_action_list.append(action)   
@@ -192,7 +192,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           # print(immediate_reward(cur_state,action))
           history_exp_avg_reward_list.append(sum(history_reward_list)/len( history_reward_list))
   ```
-  Step5: Set k=k+1, and the current state to be j. Repeat steps 2–5 until the terminal condition is reached.
+  **Step5:** Set k=k+1, and the current state to be j. Repeat steps 2–5 until the terminal condition is reached.
   ```py 
           # step 5
           cur_state = next_state
@@ -207,7 +207,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       return random.uniform(0,1)
   ```
   Now, let's continue to enter into the HR learning algorithm. <br>
-  Step1: Initialize the learning rates β₁, β₂, exploration factor ε<sub>0</sub>, trigger factor η₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate the immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
+  **Step1:** Initialize the learning rates β₁, β₂, exploration factor ε<sub>0</sub>, trigger factor η₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate the immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
   ```py
   def iterative_HR_alg(initial_state,iterative_num):
       k = 0
@@ -230,7 +230,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       action = 0
   ```
   Same as R Learning, we update according rewards in iterative_num.<br>
-  Step2: Randomly generate a number η by above function. Then, calculate exploration probability ε by using ε = ε<sub>0</sub> / ψᵏ. 
+  **Step2:** Randomly generate a number η by above function. Then, calculate exploration probability ε by using ε = ε<sub>0</sub> / ψᵏ. 
 
   ```py
       while k<iterative_num:
@@ -238,7 +238,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           eta = eta_generate()
           eposilon = eposilon/phi
   ```
-  Step3: Calculate c<sub>m</sub>(i, a<sub>N+1</sub>). If c<sub>m</sub>(i, a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)], and if η > η<sub>0</sub>(1− ε), perform preventive maintenance; else go to Step4. If we perform preventive maintenance, set the state goes to 0 and calculate the immediate reward value R(i,a), and update the relative average reward R̄<sup>π</sup>(i, a) and the average reward ρ.
+  **Step3:** Calculate c<sub>m</sub>(i, a<sub>N+1</sub>). If c<sub>m</sub>(i, a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)], and if η > η<sub>0</sub>(1− ε), perform preventive maintenance; else go to Step4. If we perform preventive maintenance, set the state goes to 0 and calculate the immediate reward value R(i,a), and update the relative average reward R̄<sup>π</sup>(i, a) and the average reward ρ.
   ```py
           # step3 
           if maintenance_cost[cur_state][maitenance_index] <= min(
@@ -248,7 +248,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
               rel_avg_reward[cur_state][action] = rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
               avg_reward = avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward)
   ```
-  Step4: Choose and carry out the action a that has the highest R̄ᵏ(i,a) value with probability 1-ε, else, randomly choose other exploration action a with probability ε/(|A|-1), where |A| is the number of actions in action set A. Let the next state be j transferred from i. If the selected action a is a non-exploratory action, update the average reward ρ; otherwise, the average reward ρ is kept the same.
+  **Step4:** Choose and carry out the action a that has the highest R̄ᵏ(i,a) value with probability 1-ε, else, randomly choose other exploration action a with probability ε/(|A|-1), where |A| is the number of actions in action set A. Let the next state be j transferred from i. If the selected action a is a non-exploratory action, update the average reward ρ; otherwise, the average reward ρ is kept the same.
   ```py
           else:
               # step 4
@@ -262,7 +262,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
                   action = random.choices(action_candidate_list, weights=[1/len(action_candidate_list) for i in range(len(action_candidate_list))], k=1)[0]
                   next_state = get_next_state(cur_state,action)
   ```
-  Step5: Calculate the immediate reward value R(i,a). Update the relative average reward R̄ᵏ(i,a).
+  **Step5:** Calculate the immediate reward value R(i,a). Update the relative average reward R̄ᵏ(i,a).
   ```py
   
               # step 5
@@ -273,7 +273,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           # print(immediate_reward(cur_state,action))
           history_exp_avg_reward_list.append(sum(history_reward_list)/len( history_reward_list))
   ```
-  Step6: Set k=k+1, and the current state to be j. Repeat steps 2–6 until the terminal condition is reached.
+  **Step6:** Set k=k+1, and the current state to be j. Repeat steps 2–6 until the terminal condition is reached.
   ```py 
           # step 6
           cur_state = next_state
