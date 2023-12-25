@@ -2,10 +2,12 @@
 * Introduction
 * Problem Description
 * Methodology
-  *  GR-learning
+  * GR-learning
   * R-learning
   * HR-learning
-* Scheduling Visualization
+* Experiment Result
+  * Convergence of Reinforcement Learning Algorithm
+  * Scheduling Visualization
 * Conclusion
   * Conclusion
   * Contribution
@@ -124,7 +126,7 @@
       return completion_reward[state][action] - maintenance_cost[state][action] - proc_cost[state][action]*proc_time[action]
   ```
 ## Methodology
-### R Learning algorithm
+### R-Learning
 Before entering the algorithm, we first define several functions for the algorithm to use.
 After calculating the immediate reward value R(i, a) at each decision point, we adjust the relative average reward R̄<sup>π</sup>(i, a) and the average reward ρ following the specified rules.
 
@@ -143,7 +145,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
   def avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward):
       return (1-beta_2)*avg_reward + beta_2*(immediate_reward(cur_state,action)+max(rel_avg_reward[next_state])-max(rel_avg_reward[cur_state]))
   ```
- Now, let's continue to enter into the R learning algorithm. <br>
+ **R-learning algorithm** <br>
  **Step1:** Initialize the learning rates β₁, β₂, exploration factor ε₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate the immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
   ```py
   def iterative_R_alg(initial_state,iterative_num):
@@ -200,7 +202,8 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           # print(avg_reward)
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
-### HR Learning (Heuristic R Learning) algorithm
+--------------------------------------------------------------------------------------------------------------------
+### HR-Learning (Heuristic R-Learning)
   Before introducing the steps of the algorithm, it is crucial to elucidate this heuristic property. This heuristic property explains that under specific conditions, preventive maintenance will be the best action to conduct. <br><br>
   **Property: If c<sub>m</sub>(i,a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)] for all i, such that the preventive maintenance should be conducted in i under the optimal stationary policy.<br>**<br>
   To prove it, for any state i, if, <br>
@@ -211,12 +214,13 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
   <br>
   **With this property, we can incorporate the heuristic rule into the R learning algorithm mentioned above.**
   <br>
+  <br>
   Firstly, we define a function for the algorithm to use. This function randomly generates eta to decide whether to exploit the heuristic rule.
   ```py
   def eta_generate():
       return random.uniform(0,1)
   ```
-  Now, let's continue to enter into the HR learning algorithm. <br>
+  **HR learning algorithm** <br>
   **Step1:** Initialize the learning rates β₁, β₂, exploration factor ε<sub>0</sub>, trigger factor η₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate the immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
   ```py
   def iterative_HR_alg(initial_state,iterative_num):
@@ -291,4 +295,9 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           # print(avg_reward)
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
+
+  ##  Experiment Result
+  ### Convergence of Reinforcement Learning Algorithm
   
+  --------------------------------------------------------------------------------------------------------------------
+  ### Scheduling Visualization
