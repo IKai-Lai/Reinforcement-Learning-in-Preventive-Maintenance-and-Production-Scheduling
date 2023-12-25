@@ -1,4 +1,5 @@
 # Reinforcement-Learning-in-Preventive-Maintenance-and-production-scheduling
+Table of Contents
 * Introduction
 * Problem Description
 * Methodology
@@ -13,6 +14,38 @@
   * Contribution
   * Limitation
   * Future work
+details open="open">
+  <summary><b>Table of Contents</b></summary>
+  <ol>
+    <li>
+      <a href="##Introduction">Introduction</a>
+    </li>
+    <li>
+      <a href="#problem-description">Problem Description</a>
+    </li>
+    <li>
+      <a href="#methodology">Methodology</a>
+      <ul>
+        <li><a href="#biased-random-key-enetic-lgorithmn">GR-learning</a></li>
+        <li><a href="#placement-strategy">R-learning</a></li>
+        <li><a href="#placement-strategy">HR-learning</a></li>
+      </ul>
+    </li>
+    <li><a href="#visualization">Experiment Result</a></li>
+      <ul>
+        <li><a href="#biased-random-key-enetic-lgorithmn">Convergence of Reinforcement Learning Algorithm</a></li>
+        <li><a href="#placement-strategy">Scheduling Visualization</a></li>
+      </ul>
+    <li><a href="#conclusion">Conclusion</a></li>
+      <ul>
+        <li><a href="#biased-random-key-enetic-lgorithmn">Conclusion</a></li>
+        <li><a href="#placement-strategy">Contribution</a></li>
+        <li><a href="#placement-strategy">Limitation</a></li>
+        <li><a href="#placement-strategy">Future work</a></li>
+      </ul>
+  </ol>
+</details>
+
 ## Problem Description
   We concentrate on a production system involving the processing of multiple products on a single machine, 
   and we assume that the machine can only handle one job at a time, and all job types in the machine's buffer are available at any moment. <br>
