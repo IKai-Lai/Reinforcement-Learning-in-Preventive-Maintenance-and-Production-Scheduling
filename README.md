@@ -126,16 +126,25 @@
 ## Methodology
 ### R Learning algorithm
 Before entering the algorithm, we first define several functions for the algorithm to use.
-  ```py
-  beta_1 = 0.1 # learning rate
-  def rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward):
-      return (1-beta_1)*rel_avg_reward[cur_state][action] + beta_1*(immediate_reward(cur_state,action)-avg_reward+max(rel_avg_reward[next_state]))
+After calculating the immediate reward value R(i, a) at each decision point, we adjust the relative average reward R̄<sup>π</sup>(i, a) and the average reward ρ following the specified rules.
+
+<img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/relative_average_reward.png" width="580" height="60">
+
+ ```py
+ beta_1 = 0.1 # learning rate
+ def rel_avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward):
+     return (1-beta_1)*rel_avg_reward[cur_state][action] + beta_1*(immediate_reward(cur_state,action)-avg_reward+max(rel_avg_reward[next_state]))
   ```
+
+<img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/average_reward.png" width="580" height="60">
+
   ```py
   beta_2 = 0.01 # learning rate    
   def avg_reward_updating(cur_state,action,next_state,avg_reward,rel_avg_reward):
       return (1-beta_2)*avg_reward + beta_2*(immediate_reward(cur_state,action)+max(rel_avg_reward[next_state])-max(rel_avg_reward[cur_state]))
   ```
+ Now, let's continue to enter into the R learning algorithm. <br>
+ Step1: Initialize the learning rates β₁, β₂, exploration factor ε₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
   ```py
   def iterative_R_alg(initial_state,iterative_num):
       k = 0
@@ -143,11 +152,9 @@ Before entering the algorithm, we first define several functions for the algorit
       phi = 1.005 # decaying factor
       avg_reward = 0
       rel_avg_reward = np.zeros((state_num,action_num))
-      
-      for i in range(state_num): 
+       for i in range(state_num): 
           for a in range(action_num):
               rel_avg_reward[i][a] = immediate_reward(i,a)
-      
       history_state_list = []
       history_action_list = []
       history_reward_list = []
@@ -155,14 +162,19 @@ Before entering the algorithm, we first define several functions for the algorit
       cur_state = initial_state
       next_state = 0
       action = 0
-      
+  ```
+  We update according rewards in iterative_num<br>
+  Step2:  Calculate exploration probability ε by using ε = ε<sub>0</sub> / ψᵏ.
+  ```py 
       while k<iterative_num:
           # step2
           eposilon = eposilon/phi
-          
+  ```
+  Step3: Choose and carry out the action a that has the highest R̄ᵏ(i,a) value with probability 1-ε, else, randomly choose other exploration action a with probability ε/(|A|-1), where |A| is the number of actions in action set A.
+  ```py
+          # step3
           lala = random.choices([0,1], weights=[eposilon,1-eposilon], k=1)[0]
-          # action_candidate_list = [i for i in range(action_num) if rel_avg_reward[cur_state][i]==0]
-          if lala == 1 :#or len(action_candidate_list)==0:
+          if lala == 1 :
               action = np.argmax(rel_avg_reward[cur_state])
               # step 6
               next_state = get_next_state(cur_state,action)
