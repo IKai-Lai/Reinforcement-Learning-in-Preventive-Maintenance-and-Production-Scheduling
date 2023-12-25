@@ -80,7 +80,7 @@
   
       return maintenance_cost
   ```
-  The degradation of the machine condition results in an increase in the processing cost per time unit.
+  The degradation of the machine condition increases the processing cost per time unit.
   Hence, if i ≥ i′, then c<sub>p</sub>(i, a) ≥ c<sub>p</sub>(i′, a).
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/process_cost.png" width="550" height="80">
   ```py
@@ -201,15 +201,17 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
 ### HR Learning (Heuristic R Learning) algorithm
-  Before introducing the steps of the algorithm, it is essential to clarify this heuristic property. In other words, I believe it is more accurate to refer to it as the optimal action under specific conditions. <br>
-          <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/property2.png" width="600" height="88"><br>
-  To prove it, for any state i, if<br>
-        <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/property2_pf3.png" width="397" height="66"><br>,
-  then a<sub>N+1</sub> must be the best action to choose. <br>
-  And h(i) here represent the infinite horizon discounted expected rewrd function. According to the other paper refered here, it is a non-increasing function.  So<br>
-                                 <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/property2_pf2.png" width="153" height="30"><br>.
-  Thus, when c<sub>m</sub>(i, a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)] holds, there must be R(i, a<sub>N+1</sub>) >= R(i, a) holds, so that the first inequation hold, the proof complete.<br>
-  Firstly, we define a function for the algorithm to use. This function randomly generate eta to decide whether to exploit the heuristic rule.
+  Before introducing the steps of the algorithm, it is crucial to elucidate this heuristic property. This heuristic property explains that under specific conditions, preventive maintenance will be the best action to conduct. <br><br>
+  **Property: If c<sub>m</sub>(i,a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)] for all i, such that the preventive maintenance should be conducted in i under the optimal stationary policy.<br>**<br>
+  To prove it, for any state i, if, <br>
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/property2_pf1.png" width="330" height="70"><br>
+  then a<sub>N+1</sub> must be the best action to choose. And h(i) here represents the infinite horizon discounted expected reward function. According to the reference paper, it is a non-increasing function. So<br>
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/property2_pf2.png" width="120" height="25">.<br>
+  Thus, when c<sub>m</sub>(i, a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)] holds, there must be R(i, a<sub>N+1</sub>) ≥ R(i, a) holds, so that the first inequation hold, the proof complete.<br>
+  <br>
+  **With this property, we can incorporate the heuristic rule into the R learning algorithm mentioned above.**
+  <br>
+  Firstly, we define a function for the algorithm to use. This function randomly generates eta to decide whether to exploit the heuristic rule.
   ```py
   def eta_generate():
       return random.uniform(0,1)
