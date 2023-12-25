@@ -1,20 +1,5 @@
 # Reinforcement-Learning-in-Preventive-Maintenance-and-production-scheduling
-Table of Contents
-* Introduction
-* Problem Description
-* Methodology
-  * GR-learning
-  * R-learning
-  * HR-learning
-* Experiment Result
-  * Convergence of Reinforcement Learning Algorithm
-  * Scheduling Visualization
-* Conclusion
-  * Conclusion
-  * Contribution
-  * Limitation
-  * Future work
-details open="open">
+<details open="open">
   <summary><b>Table of Contents</b></summary>
   <ol>
     <li>
@@ -28,7 +13,7 @@ details open="open">
       <ul>
         <li><a href="#gr-learning">GR-Learning</a></li>
         <li><a href="#r-learning">R-Learning</a></li>
-        <li><a href="#hr-learning">HR-Learning</a></li>
+        <li><a href="#hR-learning-(heuristic-r-learning)">HR-Learning</a></li>
       </ul>
     </li>
     <li><a href="#experiment-result">Experiment Result</a></li>
