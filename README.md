@@ -238,7 +238,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           eta = eta_generate()
           eposilon = eposilon/phi
   ```
-  Step3: Calculate c<sub>m</sub>(i, a<sub>N+1</sub>). If c<sub>m</sub>(i, a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)], and if η > η<sub>0</sub>(1− ε), perform preventive maintainence; else go to Step4.
+  Step3: Calculate c<sub>m</sub>(i, a<sub>N+1</sub>). If c<sub>m</sub>(i, a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)], and if η > η<sub>0</sub>(1− ε), perform preventive maintenance; else go to Step4. If we perform preventive maintenance, set the state goes to 0 and calculate the immediate reward value R(i,a), and update the relative average reward R̄<sup>π</sup>(i, a) and the average reward ρ.
   ```py
           # step3 
           if maintenance_cost[cur_state][maitenance_index] <= min(
