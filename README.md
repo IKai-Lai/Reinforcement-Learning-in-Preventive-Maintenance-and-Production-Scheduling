@@ -26,22 +26,22 @@ details open="open">
     <li>
       <a href="#methodology">Methodology</a>
       <ul>
-        <li><a href="#biased-random-key-enetic-lgorithmn">GR-learning</a></li>
-        <li><a href="#placement-strategy">R-learning</a></li>
-        <li><a href="#placement-strategy">HR-learning</a></li>
+        <li><a href="#gr-learning">GR-Learning</a></li>
+        <li><a href="#r-learning">R-Learning</a></li>
+        <li><a href="#hr-learning">HR-Learning</a></li>
       </ul>
     </li>
-    <li><a href="#visualization">Experiment Result</a></li>
+    <li><a href="#experiment-result">Experiment Result</a></li>
       <ul>
-        <li><a href="#biased-random-key-enetic-lgorithmn">Convergence of Reinforcement Learning Algorithm</a></li>
-        <li><a href="#placement-strategy">Scheduling Visualization</a></li>
+        <li><a href="#convergence-of-reinforcement-learning-algorithm">Convergence of Reinforcement Learning Algorithm</a></li>
+        <li><a href="#scheduling-visualization">Scheduling Visualization</a></li>
       </ul>
     <li><a href="#conclusion">Conclusion</a></li>
       <ul>
-        <li><a href="#biased-random-key-enetic-lgorithmn">Conclusion</a></li>
-        <li><a href="#placement-strategy">Contribution</a></li>
-        <li><a href="#placement-strategy">Limitation</a></li>
-        <li><a href="#placement-strategy">Future work</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#contribution">Contribution</a></li>
+        <li><a href="#limitation">Limitation</a></li>
+        <li><a href="#future-work">Future work</a></li>
       </ul>
   </ol>
 </details>
