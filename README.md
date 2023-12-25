@@ -309,5 +309,5 @@ As depicted in the figure, it is evident that HR-learning exhibits faster conver
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/R.png" width="330" height="220">
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/HR.png" width="330" height="220">
 </p>
-
-
+As mentioned in the problem description, this is a problem about single machine with six states. Therefore, instead of representing the scheduling through a Gantt chart, our focus is on the selection and switch of actions and states. The above diagram illustrates the last 50 states/actions and schedules among 6000 decision points. As you can observe, due to algorithm convergence, the agent tends to choose a few actions, typically associated with higher rewards or shorter process times.<br>
+Another noteworthy observation is that the agent tends to keep the machine in a healthier state. Once the machine enters a moderately deteriorated state, the agent conducts preventive maintenance. This is because in a less healthy state, choosing to conduct a job may result in a lower overall reward.
