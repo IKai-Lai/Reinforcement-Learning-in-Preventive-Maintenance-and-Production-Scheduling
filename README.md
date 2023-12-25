@@ -144,7 +144,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       return (1-beta_2)*avg_reward + beta_2*(immediate_reward(cur_state,action)+max(rel_avg_reward[next_state])-max(rel_avg_reward[cur_state]))
   ```
  Now, let's continue to enter into the R learning algorithm. <br>
- Step1: Initialize the learning rates β₁, β₂, exploration factor ε₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
+ Step1: Initialize the learning rates β₁, β₂, exploration factor ε₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate the immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
   ```py
   def iterative_R_alg(initial_state,iterative_num):
       k = 0
@@ -201,10 +201,13 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
 ### HR Learning (Heuristic R Learning) algorithm
+  Before entering the algorithm, we first define a function for the algorithm to use. This function randomly generate eta to decide whether to exploit the heuristic rule.
   ```py
   def eta_generate():
       return random.uniform(0,1)
   ```
+  Now, let's continue to enter into the HR learning algorithm. <br>
+  Step1: Initialize the learning rates β₁, β₂, exploration factor ε<sub>0</sub>, trigger factor η₀, decaying factor ψ, average reward ρ, and relative average reward R̄(i,a). Calculate the immediate reward of each (state, action) pair, initialize some record list, and let the current machine state be 0.
   ```py
   def iterative_HR_alg(initial_state,iterative_num):
       k = 0
@@ -225,7 +228,10 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       cur_state = initial_state
       next_state = 0
       action = 0
-      
+  ```
+  Same as R Learning, we update according rewards in iterative_num.<br>
+  Step2: Randomly generate a number η by above function. Then, calculate c<sub>m</sub>(i, a<sub>N+1</sub>) and exploration probability ε by using ε = ε<sub>0</sub> / ψᵏ. 
+  ```py
       while k<iterative_num:
           # step2
           eta = eta_generate()
