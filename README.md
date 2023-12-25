@@ -299,6 +299,15 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
 ##  Experiment Result
 The numerical experiments aim to confirm the performance and effectiveness of three algorithms implemented on a single machine with six states. The machine is responsible for producing various types of jobs, and the transitions between states during the production process follow the Markov chain model. In this study, production costs primarily consist of preventive maintenance costs and job processing costs. The processing costs are contingent upon the processing time of each job type and the machine's processing cost per unit time in a given state. The processing time, denoted as t<sub>n</sub>, for each job type is generated using a uniform distribution. Upon the completion of a job, a corresponding completion reward is received, and this reward follows a uniform distribution tailored to different job types.
 ### Convergence of Reinforcement Learning Algorithm
-
+<img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/converge.png"><br>
+As depicted in the figure, it is evident that HR-learning exhibits faster convergence compared to R-learning. Furthermore, HR-learning consistently outperforms R-learning across the entire iterative process. Conversely, while GR-learning converges more rapidly than HR-learning, it demonstrates inferior performance compared to HR-learning throughout the iterative process. Remarkably, R-learning outperforms GR-learning after around 900 decision-making steps.
+  
   --------------------------------------------------------------------------------------------------------------------
-  ### Scheduling Visualization
+### Scheduling Visualization
+<p float="left">
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/GR.png" width="330" height="220">
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/R.png" width="330" height="220">
+  <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/HR.png" width="330" height="220">
+</p>
+
+
