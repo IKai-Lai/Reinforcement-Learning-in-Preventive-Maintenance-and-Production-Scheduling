@@ -416,7 +416,9 @@ The numerical experiments aim to confirm the performance and effectiveness of th
 ### Convergence of Reinforcement Learning Algorithm
 <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/converge.png"><br>
 As depicted in the figure, it is evident that HR-learning exhibits faster convergence compared to R-learning. Furthermore, HR-learning consistently outperforms R-learning across the entire iterative process. Conversely, while GR-learning converges more rapidly than HR-learning, it demonstrates inferior performance compared to HR-learning throughout the iterative process. Remarkably, R-learning outperforms GR-learning after around 900 decision-making steps.
-  
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Scheduling Visualization
 <p float="left">
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/GR.png" width="330" height="220">
