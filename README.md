@@ -240,7 +240,7 @@ def GR_learning(initial_state, iterative_num):
     avg_reward = np.mean(history_reward_list)
     return history_state_list, history_action_list, history_exp_avg_reward_list, avg_reward, Q
 ```
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### R-Learning
 Before entering the algorithm, we first define several functions for the algorithm to use.
 After calculating the immediate reward value R(i, a) at each decision point, we adjust the relative average reward R̄<sup>π</sup>(i, a) and the average reward ρ following the specified rules.
@@ -317,6 +317,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
           # print(avg_reward)
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### HR-Learning (Heuristic R-Learning)
   Before introducing the steps of the algorithm, it is crucial to elucidate this heuristic property. This heuristic property explains that under specific conditions, preventive maintenance will be the best action to conduct. <br><br>
   **Property: If c<sub>m</sub>(i,a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)] for all i, such that the preventive maintenance should be conducted in i under the optimal stationary policy.<br>**<br>
@@ -428,6 +429,8 @@ Another noteworthy observation is that the agent tends to keep the machine in a 
 ## Conclusion
 ### Conclusion
 HR-Learning, as an advanced evolution of R-Learning, successfully addresses key challenges in reinforcement learning by incorporating domain knowledge and opportunity cost considerations. It not only mitigates the issue of poor initial returns due to aggressive exploration but also ensures better long-term convergence by weighing additional benefits relative to other decision-making behaviors. While GR-Learning offers quick convergence, HR-Learning proves to be superior in the long run, providing more stable and effective results, particularly when extended over longer running intervals. This makes HR-Learning a robust choice, accelerating convergence and enhancing post-convergence effectiveness, thereby solving some of the persistent issues in reinforcement learning and making it a more viable and stable option for complex decision-making scenarios.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Contributions
 **Theoretical Contributions** <br>
