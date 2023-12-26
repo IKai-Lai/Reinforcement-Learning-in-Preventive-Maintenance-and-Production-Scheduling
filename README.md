@@ -24,7 +24,7 @@
     <li><a href="#conclusion">Conclusion</a></li>
       <ul>
         <li><a href="#conclusion">Conclusion</a></li>
-        <li><a href="#contribution">Contribution</a></li>
+        <li><a href="#contributions">Contributions</a></li>
         <li><a href="#limitation">Limitation</a></li>
         <li><a href="#future-work">Future work</a></li>
       </ul>
