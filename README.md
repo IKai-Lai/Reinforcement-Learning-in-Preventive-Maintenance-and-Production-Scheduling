@@ -91,8 +91,8 @@
   The machine processing cost per time unit in state i is delineated as:<br>
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/maintainence_cost.png" width="580" height="60">
   ```py
+  maintenance_cost = np.zeros((state_num,action_num))
   def cal_maintenance_cost(maintenance_cost):
-      maintenance_cost = np.zeros((state_num,action_num))
       maintenance_cost[1][maitenance_index] = 1.5
       maintenance_cost[2][maitenance_index] = 1.8
       maintenance_cost[3][maitenance_index] = 2.1
@@ -106,8 +106,8 @@
   Hence, if i ≥ i′, then c<sub>p</sub>(i, a) ≥ c<sub>p</sub>(i′, a).
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/process_cost.png" width="550" height="80">
   ```py
+  proc_cost = np.zeros((state_num,action_num))
   def cal_proc_cost(proc_cost):
-      proc_cost = np.zeros((state_num,action_num))
       for i in range(state_num-2): 
           proc_cost[i][:] = round(random.uniform(i,i+1),1)
       for i in range(state_num-2,state_num): 
@@ -117,8 +117,8 @@
   ```
   This machine can handle various job types, with t<sub>n</sub> representing the processing time for job type n, where n ∈ {1, 2, ⋯, N}, which is given randomly. 
   ```py
+  proc_time = np.zeros((action_num))
   def cal_proc_time(proc_time):
-      proc_time = np.zeros((action_num))
       for a in range(action_num-1):
           proc_time[a] = round(random.uniform(0.8,2.6),1)
           # proc_time[a] = round(random.uniform(0.3,3.1),1)# increasing uncertainty, lower the efficiency of HR algorithm
@@ -129,8 +129,8 @@
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/completion_reward.png" width="600" height="80"><br>
   r<sub>o</sub>(a) denotes the completion reward for a type of job when taking action a, which is given randomly. No reward is received during the execution of maintenance activities.
   ```py
+  completion_reward = np.zeros((state_num,action_num))
   def cal_completion_reward(completion_reward):
-      completion_reward = np.zeros((state_num,action_num))
       for a in range(action_num-1):
           reward = round(random.uniform(1.1,3.4),1)
           # reward = round(random.uniform(0.5,4),1)# increasing uncertainty, lower the efficiency of HR algorithm
