@@ -32,6 +32,12 @@
 </details>
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## Introduction
+  In this project, we reference the paper: "Joint optimization of preventive maintenance and production scheduling for multi-state production systems based on reinforcement learning" by Hongbing Yang, Wenchao Li, and Bin Wang from Soochow University, Jiangsu   University, and Jiangsu Academy of Safety Science and Technology, China. We explore the integration of production scheduling and preventive maintenance aimed at improving the reliability and productivity of manufacturing systems. Traditional production scheduling methods often overlook the impact of maintenance activities on operational efficiency, and our approach through reinforcement learning, specifically the integration of Markov Decision Processes (MDP) and Heuristic Reinforcement Learning, effectively addresses the optimization of long-term average rewards in multi-state single-machine production systems.
+
+Our research is focused on how to integrate preventive maintenance strategies into production scheduling, taking into account the effect of deterioration over time, which includes the gradual decline in machine efficiency and quality, leading to increased production and maintenance costs. Our study proposes an innovative integrated model that includes planning decisions for preventive maintenance as well as single-machine production scheduling decisions, thereby making the entire production process more efficient and economical.
+
+The goal of our research is to provide an operational guideline to help industrial practitioners better understand and implement integrated strategies for production scheduling and preventive maintenance. Through this project, we aim to provide meaningful insights and practical solutions to advance the manufacturing industry.
 
 ## Problem Description
   We concentrate on a production system involving the processing of multiple products on a single machine, 
@@ -91,8 +97,8 @@
   The machine processing cost per time unit in state i is delineated as:<br>
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/maintainence_cost.png" width="580" height="60">
   ```py
-  maintenance_cost = np.zeros((state_num,action_num))
   def cal_maintenance_cost(maintenance_cost):
+      maintenance_cost = np.zeros((state_num,action_num))
       maintenance_cost[1][maitenance_index] = 1.5
       maintenance_cost[2][maitenance_index] = 1.8
       maintenance_cost[3][maitenance_index] = 2.1
@@ -106,8 +112,8 @@
   Hence, if i ≥ i′, then c<sub>p</sub>(i, a) ≥ c<sub>p</sub>(i′, a).
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/process_cost.png" width="550" height="80">
   ```py
-  proc_cost = np.zeros((state_num,action_num))
   def cal_proc_cost(proc_cost):
+      proc_cost = np.zeros((state_num,action_num))
       for i in range(state_num-2): 
           proc_cost[i][:] = round(random.uniform(i,i+1),1)
       for i in range(state_num-2,state_num): 
@@ -117,8 +123,8 @@
   ```
   This machine can handle various job types, with t<sub>n</sub> representing the processing time for job type n, where n ∈ {1, 2, ⋯, N}, which is given randomly. 
   ```py
-  proc_time = np.zeros((action_num))
   def cal_proc_time(proc_time):
+      proc_time = np.zeros((action_num))
       for a in range(action_num-1):
           proc_time[a] = round(random.uniform(0.8,2.6),1)
           # proc_time[a] = round(random.uniform(0.3,3.1),1)# increasing uncertainty, lower the efficiency of HR algorithm
@@ -129,8 +135,8 @@
   <img src="https://github.com/IKai-Lai/Reinforcement-Learning-in-Preventive-Maintenance-and-Production-Scheduling/blob/main/image/completion_reward.png" width="600" height="80"><br>
   r<sub>o</sub>(a) denotes the completion reward for a type of job when taking action a, which is given randomly. No reward is received during the execution of maintenance activities.
   ```py
-  completion_reward = np.zeros((state_num,action_num))
   def cal_completion_reward(completion_reward):
+      completion_reward = np.zeros((state_num,action_num))
       for a in range(action_num-1):
           reward = round(random.uniform(1.1,3.4),1)
           # reward = round(random.uniform(0.5,4),1)# increasing uncertainty, lower the efficiency of HR algorithm
@@ -315,6 +321,94 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       return history_state_list, history_action_list, history_exp_avg_reward_list,rel_avg_reward
   ```
 
+### GR-Learning Algorithm
+
+GR-Learning (Gamma-Reward Learning) is an algorithm designed to integrate the concepts of Q-learning and R-learning, aiming at maximizing long-run expected average rewards in a given Markov Decision Process. This algorithm updates the Q-values by considering the immediate reward plus the discounted future state's maximum Q-value.
+
+**Algorithm Steps**
+
+**Variables Initialization**
+1. `Q`: A state-action value function initialized to zeros for all state and action pairs.
+2. `epsilon`: Exploration factor, starting at 0.9.
+3. `avg_reward_list`: To track the average reward.
+4. `history_state_list, history_action_list, history_reward_list, history_exp_avg_reward_list`: To keep the history of states, actions, and rewards.
+5. `rho`: Average reward rate, initialized to 0.
+
+**Function Definitions**
+1. **Q_value_updating**: Updates the Q-value for a specific state and action. It considers the immediate reward, discounted maximum Q-value of the next state, average reward rate (rho), and the learning rate (`beta_1`).
+   
+   ```python
+       def Q_value_updating(cur_state, action, next_state, Q, immediate_reward, rho):
+           return (1 - beta_1) * Q[cur_state][action] + beta_1 * (immediate_reward(cur_state, action) - rho + gamma * np.max(Q[next_state]))
+
+2. **epsilon_greedy_policy**: Selects an action using the epsilon-greedy strategy. With probability epsilon, it selects a random action; otherwise, it selects the action with the highest Q-value.
+     ```py 
+         def epsilon_greedy_policy(state, Q, epsilon):
+         if random.uniform(0, 1) < epsilon:
+            return random.randint(0, action_num - 1)
+         else:
+            return np.argmax(Q[state])
+    ```
+### Main Algorithm Loop
+
+The `GR_learning` function is the core of the GR-Learning algorithm, where the iterative process of learning and decision-making occurs. Here is how it works:
+
+1. **Initialize the Q-table for state-action pairs**: A matrix `Q` is initialized with zeros for all state-action pairs, representing the expected rewards for taking an action in a given state.
+
+2. **Iterate over a specified number of iterations `iterative_num`**: The algorithm runs for a pre-defined number of steps, refining its strategy at each step.
+
+3. **At each iteration**:
+
+   - **Select an action using the `epsilon_greedy_policy`**: The function decides whether to take the best-known action or explore a new action based on the value of `epsilon`.
+
+   - **Observe the next state and reward after taking the action**: The environment returns the next state and the observed reward after performing the action.
+
+   - **Update the Q-value for the current state and action**: Using the `Q_value_updating` function, the algorithm updates its Q-table with new knowledge gained from the latest action.
+
+   - **Update the average reward rate (`rho`)**: The average reward rate is updated to reflect the latest information.
+
+   - **Decay the `epsilon` value over time**: To balance exploration and exploitation, `epsilon` decreases with each step, making the policy more greedy as it learns more about the environment.
+
+   - **Append the current state, action, and reward to the history lists**: Keeps track of the entire sequence of states, actions, and rewards for analysis and debugging.
+
+### GR-Learning Function
+
+```python
+def GR_learning(initial_state, iterative_num):
+    # Initializations
+    Q = np.zeros((state_num, action_num))
+    epsilon = 0.9  # Exploration factor
+    rho = 0  # Average reward rate
+    
+    # History lists
+    history_state_list = []
+    history_action_list = []
+    history_reward_list = []
+    history_exp_avg_reward_list = []
+    
+    cur_state = initial_state
+    for k in range(iterative_num):
+        action = epsilon_greedy_policy(cur_state, Q, epsilon)
+        next_state = get_next_state(cur_state, action)
+        reward = immediate_reward(cur_state, action)
+        
+        Q[cur_state][action] = Q_value_updating(cur_state, action, next_state, Q, immediate_reward, rho)
+        
+        rho = (1-beta_2)*rho + beta_2*reward
+        
+        # Append to history
+        history_state_list.append(cur_state)
+        history_action_list.append(action)
+        history_reward_list.append(reward)
+        history_exp_avg_reward_list.append(sum(history_reward_list)/len(history_reward_list))
+        
+        cur_state = next_state
+        epsilon *= 1 / (1 + beta_2 * k)  # Decay epsilon
+        
+    avg_reward = np.mean(history_reward_list)
+    return history_state_list, history_action_list, history_exp_avg_reward_list, avg_reward, Q
+```
+
 ##  Experiment Result
 The numerical experiments aim to confirm the performance and effectiveness of three algorithms implemented on a single machine with six states. The machine is responsible for producing various types of jobs, and the transitions between states during the production process follow the Markov chain model. In this study, production costs primarily consist of preventive maintenance costs and job processing costs. The processing costs are contingent upon the processing time of each job type and the machine's processing cost per unit time in a given state. The processing time, denoted as t<sub>n</sub>, for each job type is generated using a uniform distribution. Upon the completion of a job, a corresponding completion reward is received, and this reward follows a uniform distribution tailored to different job types.
 ### Convergence of Reinforcement Learning Algorithm
@@ -329,3 +423,27 @@ As depicted in the figure, it is evident that HR-learning exhibits faster conver
 </p>
 As mentioned in the problem description, this is a problem about single machine with six states. Therefore, instead of representing the scheduling through a Gantt chart, our focus is on the selection and switch of actions and states. The above diagram illustrates the last 50 states/actions and schedules among 6000 decision points. As you can observe, due to algorithm convergence, the agent tends to choose a few actions, typically associated with higher rewards or shorter process times.<br>
 Another noteworthy observation is that the agent tends to keep the machine in a healthier state. Once the machine enters a moderately deteriorated state, the agent conducts preventive maintenance. This is because in a less healthy state, choosing to conduct a job may result in a lower overall reward.
+
+### Conclusion
+HR-Learning, as an advanced evolution of R-Learning, successfully addresses key challenges in reinforcement learning by incorporating domain knowledge and opportunity cost considerations. It not only mitigates the issue of poor initial returns due to aggressive exploration but also ensures better long-term convergence by weighing additional benefits relative to other decision-making behaviors. While GR-Learning offers quick convergence, HR-Learning proves to be superior in the long run, providing more stable and effective results, particularly when extended over longer running intervals. This makes HR-Learning a robust choice, accelerating convergence and enhancing post-convergence effectiveness, thereby solving some of the persistent issues in reinforcement learning and making it a more viable and stable option for complex decision-making scenarios.
+
+### Contributions:
+**Theoretical Contributions:**
+Advancement in Reinforcement Learning Algorithms: This study significantly contributes to the reinforcement learning field by advancing R-Learning through the introduction of HR-Learning. This new algorithm incorporates domain knowledge and opportunity costs into the learning process, addressing the challenge of poor initial returns and ensuring better long-term convergence.
+
+Incorporation of Domain Knowledge: By embedding domain knowledge into the HR-Learning algorithm, the research showcases a methodological enhancement that accelerates the learning process and improves decision-making quality, which is a substantial theoretical contribution.
+
+Optimization of Multi-State Single-Machine Production Systems: The study extends the application of reinforcement learning to the specific context of multi-state single-machine production systems, providing a nuanced understanding of how state transitions, processing costs, and maintenance strategies interact and can be optimized in a complex production environment.
+
+Comprehensive Performance Analysis: The extensive comparison between HR-Learning, R-Learning, and GR-Learning provides a thorough theoretical analysis of the convergence patterns and performance metrics, contributing to a deeper understanding of reinforcement learning behaviors in different scenarios.
+
+**Practical Contributions:**
+Improved Production Scheduling and Maintenance: Practically, this research offers a viable solution to integrate preventive maintenance and production scheduling, leading to improved operational efficiency and reduced costs in real-world manufacturing settings.
+
+Decision-Making Strategy for Industry Application: The HR-Learning algorithm serves as a robust decision-making strategy that industry professionals can adopt for better management of machine states and job scheduling, ensuring higher productivity and extended machine life due to timely preventive maintenance.
+
+Algorithmic Efficiency and Stability: By demonstrating HR-Learning's superiority in long-term performance and stability, the study provides a practical tool that industries can rely on for consistent decision-making, especially in complex and dynamic production environments.
+
+Sensitivity to State Transitions: The findings related to the sensitivity of the proposed algorithm to state transition probabilities offer valuable insights for practitioners to customize and fine-tune the approach according to specific operational dynamics, leading to more tailored and effective maintenance and scheduling strategies.
+
+Both the theoretical and practical contributions of this study provide significant advancements in understanding and applying reinforcement learning to complex scheduling and maintenance tasks, offering pathways for both continued academic research and real-world industrial applications.
