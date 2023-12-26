@@ -463,13 +463,14 @@ Both the theoretical and practical contributions of this study provide significa
 
 This model suite might face several limitations, including:
 
-1. **Real-Time Adaptability**: The model may not adapt quickly to sudden changes in machine conditions or unexpected breakdowns, especially if these events are not represented in the historical data.
+1. **Real-Time Adaptability** <br>
+ The model may not adapt quickly to sudden changes in machine conditions or unexpected breakdowns, especially if these events are not represented in the historical data.
 
-2. **Dependency on Accurate Domain Knowledge**: 
+3. **Dependency on Accurate Domain Knowledge** <br>
 
 The effectiveness of the model heavily relies on the accuracy of the incorporated domain knowledge about machine deterioration. Misestimations can lead to suboptimal decision-making.
 
-3. **Maintenance Scheduling Complexity**: 
+3. **Maintenance Scheduling Complexity**<br>
 
 Integrating a dynamic deterioration model into the scheduling process increases the complexity of maintenance planning, potentially making it harder to predict maintenance windows and allocate resources efficiently.
 
