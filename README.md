@@ -423,3 +423,27 @@ As depicted in the figure, it is evident that HR-learning exhibits faster conver
 </p>
 As mentioned in the problem description, this is a problem about single machine with six states. Therefore, instead of representing the scheduling through a Gantt chart, our focus is on the selection and switch of actions and states. The above diagram illustrates the last 50 states/actions and schedules among 6000 decision points. As you can observe, due to algorithm convergence, the agent tends to choose a few actions, typically associated with higher rewards or shorter process times.<br>
 Another noteworthy observation is that the agent tends to keep the machine in a healthier state. Once the machine enters a moderately deteriorated state, the agent conducts preventive maintenance. This is because in a less healthy state, choosing to conduct a job may result in a lower overall reward.
+
+### Conclusion
+HR-Learning, as an advanced evolution of R-Learning, successfully addresses key challenges in reinforcement learning by incorporating domain knowledge and opportunity cost considerations. It not only mitigates the issue of poor initial returns due to aggressive exploration but also ensures better long-term convergence by weighing additional benefits relative to other decision-making behaviors. While GR-Learning offers quick convergence, HR-Learning proves to be superior in the long run, providing more stable and effective results, particularly when extended over longer running intervals. This makes HR-Learning a robust choice, accelerating convergence and enhancing post-convergence effectiveness, thereby solving some of the persistent issues in reinforcement learning and making it a more viable and stable option for complex decision-making scenarios.
+
+### Contributions:
+**Theoretical Contributions:**
+Advancement in Reinforcement Learning Algorithms: This study significantly contributes to the reinforcement learning field by advancing R-Learning through the introduction of HR-Learning. This new algorithm incorporates domain knowledge and opportunity costs into the learning process, addressing the challenge of poor initial returns and ensuring better long-term convergence.
+
+Incorporation of Domain Knowledge: By embedding domain knowledge into the HR-Learning algorithm, the research showcases a methodological enhancement that accelerates the learning process and improves decision-making quality, which is a substantial theoretical contribution.
+
+Optimization of Multi-State Single-Machine Production Systems: The study extends the application of reinforcement learning to the specific context of multi-state single-machine production systems, providing a nuanced understanding of how state transitions, processing costs, and maintenance strategies interact and can be optimized in a complex production environment.
+
+Comprehensive Performance Analysis: The extensive comparison between HR-Learning, R-Learning, and GR-Learning provides a thorough theoretical analysis of the convergence patterns and performance metrics, contributing to a deeper understanding of reinforcement learning behaviors in different scenarios.
+
+**Practical Contributions:**
+Improved Production Scheduling and Maintenance: Practically, this research offers a viable solution to integrate preventive maintenance and production scheduling, leading to improved operational efficiency and reduced costs in real-world manufacturing settings.
+
+Decision-Making Strategy for Industry Application: The HR-Learning algorithm serves as a robust decision-making strategy that industry professionals can adopt for better management of machine states and job scheduling, ensuring higher productivity and extended machine life due to timely preventive maintenance.
+
+Algorithmic Efficiency and Stability: By demonstrating HR-Learning's superiority in long-term performance and stability, the study provides a practical tool that industries can rely on for consistent decision-making, especially in complex and dynamic production environments.
+
+Sensitivity to State Transitions: The findings related to the sensitivity of the proposed algorithm to state transition probabilities offer valuable insights for practitioners to customize and fine-tune the approach according to specific operational dynamics, leading to more tailored and effective maintenance and scheduling strategies.
+
+Both the theoretical and practical contributions of this study provide significant advancements in understanding and applying reinforcement learning to complex scheduling and maintenance tasks, offering pathways for both continued academic research and real-world industrial applications.
