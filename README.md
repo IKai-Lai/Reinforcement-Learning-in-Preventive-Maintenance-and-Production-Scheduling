@@ -152,7 +152,7 @@ The goal of our research is to provide an operational guideline to help industri
       return completion_reward[state][action] - maintenance_cost[state][action] - proc_cost[state][action]*proc_time[action]
   ```
 ## Methodology
-
+The above-mentioned problems will be addressed using three reinforcement learning algorithms. Subsequently, we will provide detailed explanations of the three algorithms, their code implementation, and compare their differences in training.
 ### GR-Learning
 
 GR-Learning (Gamma-Reward Learning) is an algorithm designed to integrate the concepts of Q-learning and R-learning, aiming at maximizing long-run expected average rewards in a given Markov Decision Process. This algorithm updates the Q-values by considering the immediate reward plus the discounted future state's maximum Q-value.
