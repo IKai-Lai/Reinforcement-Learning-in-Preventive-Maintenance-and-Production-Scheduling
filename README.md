@@ -243,7 +243,7 @@ def GR_learning(initial_state, iterative_num):
 <br>
 
 ### R-Learning
-R-learning is a reinforcement learning method that evaluates the value function of actions and continuously optimizes using algorithms like Q-learning. This approach emphasizes learning through trial and error, adjusting the agent's strategy to maximize cumulative rewards. Technically, it uses Q-values to represent the expected returns of taking actions in specific states and may incorporate deep learning networks to approximate the value function in complex environments.
+R-learning is a reinforcement learning method that evaluates the value function of actions and continuously optimizes using algorithms like Q-learning. This approach emphasizes learning through trial and error, adjusting the agent's strategy to maximize cumulative rewards. Technically, it uses Q-values to represent the expected returns of taking actions in specific states and may incorporate deep learning networks to approximate the value function in complex environments.<br>
 
 Before entering the algorithm, we first define several functions for the algorithm to use.
 After calculating the immediate reward value R(i, a) at each decision point, we adjust the relative average reward R̄<sup>π</sup>(i, a) and the average reward ρ following the specified rules.
@@ -324,7 +324,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
 
 ### HR-Learning (Heuristic R-Learning)
 
-Based on the above methods, this paper proposes a heuristic rule to enhance the learning process of R-learning.
+Based on the above methods, this paper proposes a heuristic rule to enhance the learning process of R-learning.<br>
 Before introducing the steps of the algorithm, it is crucial to elucidate this heuristic property. This heuristic property explains that under specific conditions, preventive maintenance will be the best action to conduct. <br><br>
   **Property: If c<sub>m</sub>(i,a<sub>N+1</sub>) ≤ min<sub>a≠a<sub>N+1</sub></sub>[c<sub>p</sub>(i, a)t<sub>n</sub> − r<sub>o</sub>(i, a)] for all i, such that the preventive maintenance should be conducted in i under the optimal stationary policy.<br>**<br>
   To prove it, for any state i, if, <br>
