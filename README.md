@@ -464,7 +464,7 @@ Both the theoretical and practical contributions of this study provide significa
 This model suite might face several limitations, including:
 
 1. **Real-Time Adaptability** <br>
- The model may not adapt quickly to sudden changes in machine conditions or unexpected breakdowns, especially if these events are not represented in the historical data.
+The model may not adapt quickly to sudden changes in machine conditions or unexpected breakdowns, especially if these events are not represented in the historical data.
 
 3. **Dependency on Accurate Domain Knowledge** <br>
 
