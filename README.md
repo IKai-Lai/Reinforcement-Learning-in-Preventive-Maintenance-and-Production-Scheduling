@@ -170,12 +170,12 @@ GR-Learning (Gamma-Reward Learning) is an algorithm designed to integrate the co
 1. **Q_value_updating**: Updates the Q-value for a specific state and action. It considers the immediate reward, discounted maximum Q-value of the next state, average reward rate (rho), and the learning rate (`beta_1`).
    
    ```python
-       def Q_value_updating(cur_state, action, next_state, Q, immediate_reward, rho):
-           return (1 - beta_1) * Q[cur_state][action] + beta_1 * (immediate_reward(cur_state, action) - rho + gamma * np.max(Q[next_state]))
+   def Q_value_updating(cur_state, action, next_state, Q, immediate_reward, rho):
+       return (1 - beta_1) * Q[cur_state][action] + beta_1 * (immediate_reward(cur_state, action) - rho + gamma * np.max(Q[next_state]))
 
-2. **epsilon_greedy_policy**: Selects an action using the epsilon-greedy strategy. With probability epsilon, it selects a random action; otherwise, it selects the action with the highest Q-value.
+2. **epsilon_greedy_policy**: Select an action using the epsilon-greedy strategy. With probability epsilon, it selects a random action; otherwise, it selects the action with the highest Q-value.
      ```py 
-         def epsilon_greedy_policy(state, Q, epsilon):
+     def epsilon_greedy_policy(state, Q, epsilon):
          if random.uniform(0, 1) < epsilon:
             return random.randint(0, action_num - 1)
          else:
@@ -187,7 +187,7 @@ The `GR_learning` function is the core of the GR-Learning algorithm, where the i
 
 1. **Initialize the Q-table for state-action pairs**: A matrix `Q` is initialized with zeros for all state-action pairs, representing the expected rewards for taking an action in a given state.
 
-2. **Iterate over a specified number of iterations `iterative_num`**: The algorithm runs for a pre-defined number of steps, refining its strategy at each step.
+2. **Iterate over a specified number of iterations `iterative_num`**: The algorithm runs for a predefined number of steps, refining its strategy at each step.
 
 3. **At each iteration**:
 
@@ -429,8 +429,8 @@ Another noteworthy observation is that the agent tends to keep the machine in a 
 ### Conclusion
 HR-Learning, as an advanced evolution of R-Learning, successfully addresses key challenges in reinforcement learning by incorporating domain knowledge and opportunity cost considerations. It not only mitigates the issue of poor initial returns due to aggressive exploration but also ensures better long-term convergence by weighing additional benefits relative to other decision-making behaviors. While GR-Learning offers quick convergence, HR-Learning proves to be superior in the long run, providing more stable and effective results, particularly when extended over longer running intervals. This makes HR-Learning a robust choice, accelerating convergence and enhancing post-convergence effectiveness, thereby solving some of the persistent issues in reinforcement learning and making it a more viable and stable option for complex decision-making scenarios.
 
-### Contributions:
-**Theoretical Contributions:**
+### Contributions
+**Theoretical Contributions** <br>
 Advancement in Reinforcement Learning Algorithms: This study significantly contributes to the reinforcement learning field by advancing R-Learning through the introduction of HR-Learning. This new algorithm incorporates domain knowledge and opportunity costs into the learning process, addressing the challenge of poor initial returns and ensuring better long-term convergence.
 
 Incorporation of Domain Knowledge: By embedding domain knowledge into the HR-Learning algorithm, the research showcases a methodological enhancement that accelerates the learning process and improves decision-making quality, which is a substantial theoretical contribution.
@@ -439,7 +439,7 @@ Optimization of Multi-State Single-Machine Production Systems: The study extends
 
 Comprehensive Performance Analysis: The extensive comparison between HR-Learning, R-Learning, and GR-Learning provides a thorough theoretical analysis of the convergence patterns and performance metrics, contributing to a deeper understanding of reinforcement learning behaviors in different scenarios.
 
-**Practical Contributions:**
+**Practical Contributions** <br>
 Improved Production Scheduling and Maintenance: Practically, this research offers a viable solution to integrate preventive maintenance and production scheduling, leading to improved operational efficiency and reduced costs in real-world manufacturing settings.
 
 Decision-Making Strategy for Industry Application: The HR-Learning algorithm serves as a robust decision-making strategy that industry professionals can adopt for better management of machine states and job scheduling, ensuring higher productivity and extended machine life due to timely preventive maintenance.
