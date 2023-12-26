@@ -28,6 +28,8 @@
         <li><a href="#limitation">Limitation</a></li>
         <li><a href="#future-work">Future work</a></li>
       </ul>
+    <li><a href="#reference">Reference</a></li>
+    
   </ol>
 </details>
 
@@ -487,3 +489,6 @@ Considering these limitations is crucial when applying or further developing the
 For future work, we propose focusing on the dynamic aspects of machine deterioration, acknowledging that different actions can significantly influence the rate of wear and tear. Instead of a uniform transition probability, a variable model should be considered, which adapts the deterioration rate based on the specific tasks being performed. This involves understanding and quantifying how certain tasks may impose more strain on the machinery than others. By integrating a responsive deterioration model that adjusts probabilities according to the task type and intensity, we can achieve more accurate maintenance scheduling and extend the machinery's operational lifespan.
 
 Such an approach will allow for more efficient production processes by customizing strategies to the unique impacts of each job type on machine degradation. This will enable a more sophisticated method to predict and mitigate risks associated with intensive operational demands. Implementing this model will require detailed data collection, advanced modeling techniques, and possibly real-time monitoring of machine conditions. This advancement could significantly enhance the sustainability and productivity of manufacturing systems, making this an important area of research and development.
+
+## Reference
+<li>Yang H, Li W, Wang B. Joint optimization of preventive maintenance and production scheduling for multi-state production systems based on reinforcement learning. Reliab Eng Syst Saf 2021;214:107713.</li>
