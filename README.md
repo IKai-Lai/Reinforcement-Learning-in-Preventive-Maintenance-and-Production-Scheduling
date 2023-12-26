@@ -24,7 +24,7 @@
     <li><a href="#conclusion">Conclusion</a></li>
       <ul>
         <li><a href="#conclusion">Conclusion</a></li>
-        <li><a href="#contributions">Contributions</a></li>
+        <li><a href="#contributions">Contribution</a></li>
         <li><a href="#limitation">Limitation</a></li>
         <li><a href="#future-work">Future work</a></li>
       </ul>
@@ -436,7 +436,7 @@ HR-Learning, as an advanced evolution of R-Learning, successfully addresses key 
 
 <br>
 
-### Contributions
+### Contribution
 **Theoretical Contributions** <br>
 Advancement in Reinforcement Learning Algorithms: This study significantly contributes to the reinforcement learning field by advancing R-Learning through the introduction of HR-Learning. This new algorithm incorporates domain knowledge and opportunity costs into the learning process, addressing the challenge of poor initial returns and ensuring better long-term convergence.
 
@@ -459,7 +459,7 @@ Both the theoretical and practical contributions of this study provide significa
 
 <br>
 
-### Limitations:
+### Limitation:
 
 This model suite might face several limitations, including:
 
