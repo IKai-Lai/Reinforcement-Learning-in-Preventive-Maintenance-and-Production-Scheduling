@@ -174,7 +174,7 @@ After calculating the immediate reward value R(i, a) at each decision point, we 
       phi = 1.005 # decaying factor
       avg_reward = 0
       rel_avg_reward = np.zeros((state_num,action_num))
-       for i in range(state_num): 
+      for i in range(state_num): 
           for a in range(action_num):
               rel_avg_reward[i][a] = immediate_reward(i,a)
       history_state_list = []
