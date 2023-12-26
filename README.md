@@ -456,3 +456,29 @@ Algorithmic Efficiency and Stability: By demonstrating HR-Learning's superiority
 Sensitivity to State Transitions: The findings related to the sensitivity of the proposed algorithm to state transition probabilities offer valuable insights for practitioners to customize and fine-tune the approach according to specific operational dynamics, leading to more tailored and effective maintenance and scheduling strategies.
 
 Both the theoretical and practical contributions of this study provide significant advancements in understanding and applying reinforcement learning to complex scheduling and maintenance tasks, offering pathways for both continued academic research and real-world industrial applications.
+
+<br>
+
+### Limitations:
+
+This model suite might face several limitations, including:
+
+1. **Real-Time Adaptability**: The model may not adapt quickly to sudden changes in machine conditions or unexpected breakdowns, especially if these events are not represented in the historical data.
+
+2. **Dependency on Accurate Domain Knowledge**: 
+
+The effectiveness of the model heavily relies on the accuracy of the incorporated domain knowledge about machine deterioration. Misestimations can lead to suboptimal decision-making.
+
+3. **Maintenance Scheduling Complexity**: 
+
+Integrating a dynamic deterioration model into the scheduling process increases the complexity of maintenance planning, potentially making it harder to predict maintenance windows and allocate resources efficiently.
+
+Considering these limitations is crucial when applying or further developing the model suite to ensure its practicality and effectiveness in real-world settings.
+
+<br>
+
+### Future work:
+
+For future work, we propose focusing on the dynamic aspects of machine deterioration, acknowledging that different actions can significantly influence the rate of wear and tear. Instead of a uniform transition probability, a variable model should be considered, which adapts the deterioration rate based on the specific tasks being performed. This involves understanding and quantifying how certain tasks may impose more strain on the machinery than others. By integrating a responsive deterioration model that adjusts probabilities according to the task type and intensity, we can achieve more accurate maintenance scheduling and extend the machinery's operational lifespan.
+
+Such an approach will allow for more efficient production processes by customizing strategies to the unique impacts of each job type on machine degradation. This will enable a more sophisticated method to predict and mitigate risks associated with intensive operational demands. Implementing this model will require detailed data collection, advanced modeling techniques, and possibly real-time monitoring of machine conditions. This advancement could significantly enhance the sustainability and productivity of manufacturing systems, making this an important area of research and development.
